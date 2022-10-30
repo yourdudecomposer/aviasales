@@ -3,7 +3,15 @@ import classes from './TicketSegment.module.scss'
 import { v4 as uuidv4 } from 'uuid';
 
 function TicketSegment({ segment }) {
-    const { origin, destination, duration, stops } = segment;
+    const { origin, destination, duration, stops, date } = segment;
+
+    const timeUp = new Date(date);
+    const timeDown = new Date(date);
+    timeDown.setMinutes(timeDown.getMinutes() + duration)
+
+    const setTime = (date) => {
+        return `${date.getHours().toString().padStart(2, 0)}:${date.getMinutes().toString().padStart(2, 0)}`
+    }
 
     const makeTransferStr = (stops) => {
         switch (stops.length) {
@@ -26,7 +34,7 @@ function TicketSegment({ segment }) {
             <dt>
                 <span>{origin}</span> - <span>{destination}</span>
             </dt>
-            <dd>10:45 – 08:00</dd>
+            <dd>{setTime(timeUp)} – {setTime(timeDown)}</dd>
         </dl>
         <dl className={classes['time']}>
             <dt>В пути</dt>
@@ -34,7 +42,7 @@ function TicketSegment({ segment }) {
         </dl>
         <dl className={classes['transfer']}>
             <dt>{makeTransferStr(stops)}</dt>
-            <dd>{stops.map((el, ind) => <span key={uuidv4()}>{ind !== stops.length - 1 ? el+', ' : el}</span>)}</dd>
+            <dd>{stops.map((el, ind) => <span key={uuidv4()}>{ind !== stops.length - 1 ? el + ', ' : el}</span>)}</dd>
         </dl>
     </section>
     );
