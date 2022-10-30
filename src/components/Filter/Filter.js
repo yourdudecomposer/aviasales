@@ -3,11 +3,11 @@ import React from 'react';
 import Checkbox from '../ui/Checkbox/Checkbox';
 import { connect } from 'react-redux';
 
-function Filter({ dispatch, filters,filterAll }) {
+function Filter({ dispatch, filters, filterAll }) {
     const onFilterChange = (e) => {
         dispatch({ type: 'FILTER', id: e.target.id })
     }
-    const setAll = (e)=>{
+    const setAll = () => {
         dispatch({ type: 'FILTER_ALL' })
     }
     return (<section className={classes['filter']}>
@@ -29,7 +29,7 @@ function Filter({ dispatch, filters,filterAll }) {
 const mapStateToProps = (state) => {
     return {
         filters: state.filters,
-        filterAll:state.filterAll,
+        filterAll: state.filterAll,
     }
 }
 export default connect(mapStateToProps)(Filter);

@@ -1,12 +1,13 @@
 const initialState = {
     sort: 'cheap',
+    filterAll: false,
     filters: [
         { id: 'no transfers', label: 'Без пересадок', checked: false },
         { id: '1 transfers', label: '1 пересадка', checked: false },
         { id: '2 transfers', label: '2 пересадки', checked: false },
         { id: '3 transfers', label: '3 пересадки', checked: false },
     ],
-    filterAll: false,
+    tickets:[],
 }
 
 const reducer = (state = initialState, action) => {
@@ -47,7 +48,14 @@ const reducer = (state = initialState, action) => {
                     filterAll: isFilterAllCheck,
                 }
             }
-
+        case 'FETCH_POSTS_SUCCESS':
+            {
+                return {
+                    ...state,
+                    tickets:action.loadedTickets,
+                }
+            }
+            
         default:
             return state;
     }
