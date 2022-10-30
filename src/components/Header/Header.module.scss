@@ -1,0 +1,16 @@
+.header{
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 753px) {
+
+    .header {
+        height: initial;
+        img{
+           width: 55px;
+        }
+    }
+}

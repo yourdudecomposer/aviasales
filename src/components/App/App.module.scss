@@ -1,0 +1,27 @@
+@use '../../colors' as color;
+
+.wrapper {
+    background-color: color.$background-color;
+}
+
+
+.main {
+    max-width: 754px;
+    display: flex;
+    gap: 20px;
+    margin: 0 auto;
+}
+
+@media (max-width: 753px) {
+    .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+gap:0;
+        div {
+            width: 100%;
+            max-width: 502px;
+        }
+    }
+
+}
