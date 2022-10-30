@@ -3,21 +3,28 @@ import React, { useEffect } from 'react';
 import Ticket from '../Ticket/Ticket';
 import Api from '../../servises/Api/Api';
 import { v4 as uuidv4 } from 'uuid';
+import NextButton from '../NextButton/NextButton';
 
 import { connect } from 'react-redux';
 
 function TicketList({ tickets, dispatch }) {
 
     const api = new Api()
-
+    const ticketsVis = tickets.splice(0, 5)
     const initSearch = async () => {
         const searchId = await api.getSearchId();
-        const loadedTickets = await api.getTickets(searchId);
-        dispatch({ type: 'FETCH_POSTS_SUCCESS', loadedTickets })
+        let body = await api.getTickets(searchId);
+       const loadedTickets = [];
+       loadedTickets.push(...body.tickets)
+       do {
+         body = await api.getTickets(searchId);
+         loadedTickets.push(...body.tickets)
+       } while (!body.stop) 
+return loadedTickets;
     }
 
     useEffect(() => {
-        initSearch()
+        initSearch().then(res=>dispatch({ type: 'FETCH_POSTS_SUCCESS', loadedTickets: res }))
     }, [])
 
     return (
@@ -30,6 +37,7 @@ function TicketList({ tickets, dispatch }) {
                     carrier={el.carrier}
                 />
             })}
+            {tickets.length > 5 ? <NextButton /> : null}
         </section>
     );
 }

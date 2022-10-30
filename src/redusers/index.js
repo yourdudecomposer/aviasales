@@ -7,7 +7,7 @@ const initialState = {
         { id: '2 transfers', label: '2 пересадки', checked: true },
         { id: '3 transfers', label: '3 пересадки', checked: true },
     ],
-    tickets:[],
+    tickets: [],
 }
 
 const reducer = (state = initialState, action) => {
@@ -52,10 +52,10 @@ const reducer = (state = initialState, action) => {
             {
                 return {
                     ...state,
-                    tickets:action.loadedTickets,
+                    tickets: [...state.tickets, ...action.loadedTickets],
                 }
             }
-            
+
         default:
             return state;
     }

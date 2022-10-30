@@ -8,7 +8,6 @@ import TicketList from '../TicketList/TicketList'
 
 function App() {
   
-
   return (
     <div className={classes["wrapper"]}>
       <Header />
@@ -17,6 +16,7 @@ function App() {
         <div>
           <Sort />
           <TicketList />
+         
         </div>
       </main>
     </div>

@@ -14,7 +14,7 @@ class Api extends React.Component {
     getTickets = async (searchId) => {
         const res = await fetch(`${this.url}/tickets?searchId=${searchId}`);
         const body = await res.json();
-        return body.tickets
+        return body
     }
 
 
