@@ -41,7 +41,9 @@ function TicketList({ tickets, error, loading, dispatch }) {
 
     return (
         <section className={classes.ticketlist}>
-            {tickets.map((el) => (
+            {tickets
+            .sort((a,b) => a.price-b.price)
+            .map((el) => (
                 <Ticket
                     key={uuidv4()}
                     price={el.price}
