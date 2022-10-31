@@ -1,11 +1,11 @@
 @use '../../colors' as color;
 
-.ticketlist{
+.ticketlist {
     width: 502px;
 }
 
-@media (max-width: 753px){
-    .ticketlist{
+@media (max-width: 753px) {
+    .ticketlist {
         width: 100%;
         max-width: 502px;
     }

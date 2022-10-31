@@ -1,28 +1,25 @@
 @use '../../colors' as color;
 
-.segment{
+.segment {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 1fr;
     grid-column-gap: 20px;
 
-    dl{
+    dl {
         margin-bottom: 10px;
-
     }
-    dt{
+    dt {
         font-size: 12px;
         line-height: 18px;
         font-weight: 600;
         text-transform: uppercase;
         color: color.$light-grey;
-       
     }
-    dd{
+    dd {
         font-size: 14px;
         line-height: 21px;
         font-weight: 600;
         color: color.$dark-grey;
- 
     }
 }
