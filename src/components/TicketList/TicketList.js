@@ -8,7 +8,7 @@ import NextButton from '../NextButton/NextButton';
 
 import classes from './TicketList.module.scss';
 
-function TicketList({ tickets, error, loading, sort, dispatch }) {
+function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
     const api = new Api();
 
 
@@ -38,25 +38,41 @@ function TicketList({ tickets, error, loading, sort, dispatch }) {
         return <div>Loading...</div>;
     }
 
-    const visebleTickets = (tickets, sort) => {
+    const visebleTickets = (tickets, sort, filters) => {
+
+        const filtArr = filters
+            .filter((el) => el.checked)
+            .map((el) => el.stops)
+
+           
+        let arr = tickets.filter(ticket => {
+            const ticketArr = ticket.segments.map(el=>el.stops.length)
+            return ticketArr.every(el=>filtArr.includes(el))
+        })
+
         function getFullDuration(ticket) {
             return ticket.segments[0].duration
                 + ticket.segments[1].duration
         }
         switch (sort) {
             case 'cheap':
-                return tickets.sort((a, b) => a.price - b.price)
+                arr = arr.sort((a, b) => a.price - b.price);
+                break;
             case 'fast':
-                return tickets.sort((a, b) => getFullDuration(b) - getFullDuration(a))
+                arr = arr.sort((a, b) => getFullDuration(b) - getFullDuration(a));
+                break;
             case 'opt':
-                return tickets.sort((a, b) => b.price - a.price)
+                arr = arr.sort((a, b) => b.price - a.price);
+                break;
 
         }
+
+        return arr;
     }
 
     return (
         <section className={classes.ticketlist}>
-            {visebleTickets(tickets, sort)
+            {visebleTickets(tickets, sort, filters)
                 .splice(0, 5)
                 .map((el) => (
                     <Ticket
@@ -75,5 +91,6 @@ const mapStateToProps = (state) => ({
     loading: state.loading,
     error: state.error,
     sort: state.sort,
+    filters: state.filters,
 });
 export default connect(mapStateToProps)(TicketList);
