@@ -7,9 +7,12 @@ import Api from '../../servises/Api/Api';
 import NextButton from '../NextButton/NextButton';
 
 import classes from './TicketList.module.scss';
+import { useState } from 'react';
+
 
 function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
     const api = new Api();
+    const [numOfRenderedTickets,setNumOfRenderedTickets]=useState(5)
 
 
     useEffect(() => {
@@ -19,8 +22,8 @@ function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
                 const searchId = await api.getSearchId();
                 let body
                 do {
-                body = await api.getTickets(searchId);
-                dispatch({ type: 'FETCH_TICKETS_SUCCESS', tickets: body.tickets })
+                    body = await api.getTickets(searchId);
+                    dispatch({ type: 'FETCH_TICKETS_SUCCESS', tickets: body.tickets })
                 } while (!body.stop)
 
             } catch (err) {
@@ -30,7 +33,7 @@ function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
     }, []);
 
 
-    
+
 
     if (error && !tickets.length) {
         return <div>Error! {error.message}</div>;
@@ -60,13 +63,13 @@ function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
             return normalizeDataItem(ticket?.price, minPrice, maxPrice) + normalizeDataItem(getFullDuration(ticket), minDuration, maxDuration)
         }
 
-    
+
         console.table(tickets.map(el => {
             return {
                 realPrice: el.price,
                 realDuration: getFullDuration(el),
-                normalizePrice: normalizeDataItem(getFullDuration(el), minDuration, maxDuration),
-                normalizeDuration: normalizeDataItem(el?.price, minPrice, maxPrice)
+                normalizePrice: normalizeDataItem(el?.price, minPrice, maxPrice),
+                normalizeDuration: normalizeDataItem(getFullDuration(el), minDuration, maxDuration),
             }
         }))
 
@@ -99,11 +102,10 @@ function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
 
         return arr;
     }
-
     return (
         <section className={classes.ticketlist}>
             {visebleTickets(tickets, sort, filters)
-                .splice(0, 5)
+                .splice(0, numOfRenderedTickets)
                 .map((el) => (
                     <Ticket
                         key={uuidv4()}
@@ -112,6 +114,9 @@ function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
                         carrier={el.carrier}
                     />
                 ))}
+            <NextButton changeNumInSliceMethod={()=>{
+                setNumOfRenderedTickets(numOfRenderedTickets+5)
+            }} />
         </section>
     );
 }
