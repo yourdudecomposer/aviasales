@@ -8,11 +8,12 @@ import NextButton from '../NextButton/NextButton';
 
 import classes from './TicketList.module.scss';
 import { useState } from 'react';
+import Loader from '../ui/Loader/Loader';
 
 
 function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
     const api = new Api();
-    const [numOfRenderedTickets,setNumOfRenderedTickets]=useState(5)
+    const [numOfRenderedTickets, setNumOfRenderedTickets] = useState(5)
 
 
     useEffect(() => {
@@ -25,7 +26,7 @@ function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
                     body = await api.getTickets(searchId);
                     dispatch({ type: 'FETCH_TICKETS_SUCCESS', tickets: body.tickets })
                 } while (!body.stop)
-
+                dispatch({ type: 'FETCH_TICKETS_DONE' })
             } catch (err) {
                 dispatch({ type: 'FETCH_TICKETS_ERROR', error: err })
             }
@@ -39,17 +40,16 @@ function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
         return <div>Error! {error.message}</div>;
     }
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    // if (loading && tickets.length) {
+    //     return <div>Loading...</div>;
+    // }
 
-
+    const loadSign = loading ? <Loader/> : null;
     const normalizeDataItem = (item, min, max) => {
         return (item - min) / (max - min)
     }
 
     const visebleTickets = (tickets, sort, filters) => {
-
 
         const arrOfPrices = tickets.map(el => el?.price)
         const arrOfDuration = tickets.map(el => getFullDuration(el))
@@ -63,15 +63,14 @@ function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
             return normalizeDataItem(ticket?.price, minPrice, maxPrice) + normalizeDataItem(getFullDuration(ticket), minDuration, maxDuration)
         }
 
-
-        console.table(tickets.map(el => {
-            return {
-                realPrice: el.price,
-                realDuration: getFullDuration(el),
-                normalizePrice: normalizeDataItem(el?.price, minPrice, maxPrice),
-                normalizeDuration: normalizeDataItem(getFullDuration(el), minDuration, maxDuration),
-            }
-        }))
+        // console.table(tickets.map(el => {
+        //     return {
+        //         realPrice: el.price,
+        //         realDuration: getFullDuration(el),
+        //         normalizePrice: normalizeDataItem(el?.price, minPrice, maxPrice),
+        //         normalizeDuration: normalizeDataItem(getFullDuration(el), minDuration, maxDuration),
+        //     }
+        // }))
 
         const filtArr = filters
             .filter((el) => el.checked)
@@ -104,6 +103,7 @@ function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
     }
     return (
         <section className={classes.ticketlist}>
+            {loadSign}
             {visebleTickets(tickets, sort, filters)
                 .splice(0, numOfRenderedTickets)
                 .map((el) => (
@@ -114,8 +114,8 @@ function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
                         carrier={el.carrier}
                     />
                 ))}
-            <NextButton changeNumInSliceMethod={()=>{
-                setNumOfRenderedTickets(numOfRenderedTickets+5)
+            <NextButton changeNumInSliceMethod={() => {
+                setNumOfRenderedTickets(numOfRenderedTickets + 5)
             }} />
         </section>
     );

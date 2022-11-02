@@ -50,10 +50,16 @@ const reducer = (state = initialState, action) => {
         case 'FETCH_TICKETS_SUCCESS': {
             return {
                 ...state,
-                loading: false,
                 tickets:[...state.tickets,...action.tickets],
             };
         }
+        case 'FETCH_TICKETS_DONE': {
+            return {
+                ...state,
+                loading: false,
+            };
+        }
+        
         case 'FETCH_TICKETS_BEGIN': {
             return {
                 ...state,
