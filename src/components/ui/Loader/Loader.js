@@ -1,10 +1,9 @@
 import React from 'react';
-import './Loader.scss'
+import './Loader.scss';
 
 function Loader () {
     return (
         <>
-           
             <div className="content">
                 <div className="planet">
                     <div className="ring"></div>
@@ -17,7 +16,6 @@ function Loader () {
                         <span></span>
                         <span></span>
                         <span></span>
-
                     </div>
                 </div>
                 <p>загружаем билеты..</p>

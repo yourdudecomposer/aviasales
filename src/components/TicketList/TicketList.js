@@ -44,12 +44,12 @@ function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
     //     return <div>Loading...</div>;
     // }
 
-    const loadSign = loading ? <Loader/> : null;
+    const loadSign = loading ? <Loader /> : null;
     const normalizeDataItem = (item, min, max) => {
         return (item - min) / (max - min)
     }
 
-    const visebleTickets = (tickets, sort, filters) => {
+    const getVisebleTickets = (tickets, sort, filters) => {
 
         const arrOfPrices = tickets.map(el => el?.price)
         const arrOfDuration = tickets.map(el => getFullDuration(el))
@@ -101,10 +101,13 @@ function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
 
         return arr;
     }
+
+    const visebleTickets = getVisebleTickets(tickets, sort, filters);
+    if (visebleTickets.length === 0 && !loading) { return <div className={classes['no-find']} >Рейсов, подходящих под заданные фильтры, не найдено</div>}
     return (
         <section className={classes.ticketlist}>
             {loadSign}
-            {visebleTickets(tickets, sort, filters)
+            {visebleTickets
                 .splice(0, numOfRenderedTickets)
                 .map((el) => (
                     <Ticket
@@ -114,9 +117,9 @@ function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
                         carrier={el.carrier}
                     />
                 ))}
-            <NextButton changeNumInSliceMethod={() => {
+            {visebleTickets.length > 0 && <NextButton changeNumInSliceMethod={() => {
                 setNumOfRenderedTickets(numOfRenderedTickets + 5)
-            }} />
+            }} />}
         </section>
     );
 }

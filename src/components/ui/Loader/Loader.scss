@@ -1,11 +1,12 @@
 
-$m-01: #3c4359;
-$m-02: #546c8c;
-$m-03: #7ea1bf;
-$m-04: #bacbd9;
+$m-01: #005295;
+$m-02: #2196f3;
+$m-03: #66b8fb;
+$m-04: #a8d8ff;
 $m-05: #bf80a9;
 
-@import url("https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap");
+
+@use '../../../colors' as color;
 
 
 .content {
@@ -188,11 +189,11 @@ p{
     }
 
     p {
-        color: $m-04;
+        color: #4a4a4a;
         font-size: 15px;
         z-index: 2;
         position: absolute;
-        bottom: -20px;
+        bottom: -16px;
         animation: text 4s ease infinite;
         text-align: center;
 
@@ -200,30 +201,43 @@ p{
             0% {
                 transform: translateX(-30px);
                 letter-spacing: 0px;
-                color: $m-04;
+                color: #4a4a4a;
             }
 
             25% {
                 letter-spacing: 3px;
-                color: $m-03;
+                color: #929292;
             }
 
             50% {
                 transform: translateX(30px);
                 letter-spacing: 0px;
-                color: $m-04;
+                color: #4a4a4a;
             }
 
             75% {
                 letter-spacing: 3px;
-                color: $m-03;
+                color: #929292;
             }
 
             100% {
                 transform: translateX(-30px);
                 letter-spacing: 0px;
-                color: $m-04;
+                color: #4a4a4a;
             }
         }
     }
 }
+
+
+
+
+
+
+@media (max-width: 753px) {
+    .content {
+     
+        margin-top:0px ;
+    }
+}
+

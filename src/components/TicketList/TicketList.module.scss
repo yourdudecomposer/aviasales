@@ -2,6 +2,7 @@
 
 .ticketlist {
     width: 502px;
+  
 }
 
 @media (max-width: 753px) {
@@ -9,4 +10,12 @@
         width: 100%;
         max-width: 502px;
     }
+}
+
+.no-find{
+    font-size: 13px;
+    line-height: 20px;
+    font-weight: 400;
+    margin: 0 auto;
+    text-align: center;
 }
