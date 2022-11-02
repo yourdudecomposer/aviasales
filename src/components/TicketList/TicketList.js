@@ -18,10 +18,10 @@ function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
             try {
                 const searchId = await api.getSearchId();
                 let body
-                // do {
+                do {
                 body = await api.getTickets(searchId);
                 dispatch({ type: 'FETCH_TICKETS_SUCCESS', tickets: body.tickets })
-                // } while (!body.stop)
+                } while (!body.stop)
 
             } catch (err) {
                 dispatch({ type: 'FETCH_TICKETS_ERROR', error: err })
@@ -39,26 +39,41 @@ function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
         return <div>Loading...</div>;
     }
 
+
+    const normalizeDataItem = (item, min, max) => {
+        return (item - min) / (max - min)
+    }
+
     const visebleTickets = (tickets, sort, filters) => {
 
-        const sortedTicketsByPrice = tickets.sort((a, b) => a.price - b.price);
-        const sortedTicketByDuration = tickets.sort((a, b) => getFullDuration(a) - getFullDuration(b));
 
-        const medianPrice = tickets.length % 2 === 0 ?
-            (sortedTicketsByPrice[tickets.length / 2]?.price + sortedTicketsByPrice[tickets.length / 2 + 1]?.price) / 2
-            : sortedTicketsByPrice[Math.ceil(tickets.length / 2)]?.price
+        const arrOfPrices = tickets.map(el => el?.price)
+        const arrOfDuration = tickets.map(el => getFullDuration(el))
 
-        const medianDuration = tickets.length % 2 === 0 ?
-            (getFullDuration(sortedTicketByDuration[tickets.length / 2]) + getFullDuration(sortedTicketByDuration[tickets.length / 2 + 1])) / 2
-            : getFullDuration(sortedTicketByDuration[Math.ceil(tickets.length / 2)])
-        console.log('medianPrice', medianPrice)
-        console.log('medianDuration', medianDuration)
+        const minPrice = Math.min(...arrOfPrices)
+        const maxPrice = Math.max(...arrOfPrices)
+        const minDuration = Math.min(...arrOfDuration)
+        const maxDuration = Math.max(...arrOfDuration)
+
+        const getSumOfNormalizeData = (ticket) => {
+            return normalizeDataItem(ticket?.price, minPrice, maxPrice) + normalizeDataItem(getFullDuration(ticket), minDuration, maxDuration)
+        }
+
+    
+        console.table(tickets.map(el => {
+            return {
+                realPrice: el.price,
+                realDuration: getFullDuration(el),
+                normalizePrice: normalizeDataItem(getFullDuration(el), minDuration, maxDuration),
+                normalizeDuration: normalizeDataItem(el?.price, minPrice, maxPrice)
+            }
+        }))
+
         const filtArr = filters
             .filter((el) => el.checked)
             .map((el) => el.stops)
 
-        console.log('sortedTicketsByPrice', sortedTicketsByPrice)
-        console.log('sortedTicketByDuration', sortedTicketByDuration)
+
         let arr = tickets.filter(ticket => {
             const ticketArr = ticket.segments.map(el => el.stops.length)
             return ticketArr.every(el => filtArr.includes(el))
@@ -76,7 +91,7 @@ function TicketList({ tickets, error, loading, sort, filters, dispatch }) {
                 arr = arr.sort((a, b) => getFullDuration(a) - getFullDuration(b));
                 break;
             case 'opt':
-                arr = arr.sort((a, b) => b.price - a.price);
+                arr = arr.sort((a, b) => getSumOfNormalizeData(a) - getSumOfNormalizeData(b));
                 break;
 
         }
