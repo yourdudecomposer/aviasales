@@ -1,25 +1,25 @@
 import React from 'react';
 import './Loader.scss';
 
-function Loader () {
+function Loader() {
     return (
-        <>
-            <div className="content">
-                <div className="planet">
-                    <div className="ring"></div>
-                    <div className="cover-ring"></div>
-                    <div className="spots">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
+        <div className="content">
+            <div className="planet">
+                <div className="ring" />
+                <div className="cover-ring" />
+                <div className="spots">
+                    {/* eslint-disable */}
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
-                <p>загружаем билеты..</p>
-            </div></>
+            </div>
+            <p>загружаем билеты..</p>
+        </div>
     );
 }
 

@@ -4,7 +4,7 @@ import classes from './Checkbox.module.scss';
 
 function Checkbox({ label, onFilterChange, id, checked }) {
     return (
-        <label className={classes.checkbox}>
+        <label htmlFor={id} className={classes.checkbox}>
             <input
                 type="checkbox"
                 checked={checked}

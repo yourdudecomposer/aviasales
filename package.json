@@ -24,7 +24,8 @@
     "eject": "react-scripts eject",
     "format": "prettier --write ./src",
     "lint": "eslint ./src",
-    "lint:fix": "eslint --fix ./src"
+    "lint:fix": "eslint --fix ./src",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -54,7 +55,14 @@
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "prettier": "2.7.1",
-    "react-core-loading-spinner": "^1.0.2"
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "2.7.1"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix ./src",
+      "prettier --write ./src"
+    ]
   }
 }

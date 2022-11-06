@@ -1,27 +1,24 @@
-
 $m-01: #005295;
 $m-02: #2196f3;
 $m-03: #66b8fb;
 $m-04: #a8d8ff;
 $m-05: #bf80a9;
 
-
 @use '../../../colors' as color;
-
 
 .content {
     margin: 0 auto;
     margin-bottom: 30px;
-    margin-top:-20px ;
+    margin-top: -20px;
     width: 60px;
     height: 60px;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-p{
-    width: 200px;
-}
+    p {
+        width: 200px;
+    }
     .planet {
         width: 65%;
         height: 65%;
@@ -55,23 +52,25 @@ p{
             align-items: center;
             justify-content: center;
             transform-origin: 33% center;
-            box-shadow: .4px -2px 0px rgba(0, 0, 0, 0.1),
+            box-shadow: 0.4px -2px 0px rgba(0, 0, 0, 0.1),
                 inset -1px -0px 0px rgba(0, 0, 0, 0.1);
             animation: ring 3s ease infinite;
 
             @keyframes ring {
                 0% {
-                    transform: rotateX(110deg) rotateZ(0deg) translate(-10px, 1px);
+                    transform: rotateX(110deg) rotateZ(0deg)
+                        translate(-10px, 1px);
                 }
 
                 100% {
-                    transform: rotateX(110deg) rotateZ(360deg) translate(-10px, 1px);
+                    transform: rotateX(110deg) rotateZ(360deg)
+                        translate(-10px, 1px);
                 }
             }
 
             /* small ball */
             &:before {
-                content: "";
+                content: '';
                 position: absolute;
                 width: 2px;
                 height: 6px;
@@ -84,7 +83,7 @@ p{
 
             /* inner ring */
             &:after {
-                content: "";
+                content: '';
                 position: absolute;
                 width: 48px;
                 height: 48px;
@@ -229,15 +228,8 @@ p{
     }
 }
 
-
-
-
-
-
 @media (max-width: 753px) {
     .content {
-     
-        margin-top:0px ;
+        margin-top: 0px;
     }
 }
-

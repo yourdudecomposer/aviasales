@@ -5,7 +5,7 @@ import RadioButton from '../ui/RadioButton/RadioButton';
 
 import classes from './Sort.module.scss';
 
-function Sort({dispatch,sort}) {
+function Sort({ dispatch, sort }) {
     const Sorting = (e) => {
         dispatch({ type: 'SORT', id: e.target.id });
     };

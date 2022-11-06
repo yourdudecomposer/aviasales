@@ -2,16 +2,16 @@ const initialState = {
     sort: 'cheap',
     filterAll: true,
     filters: [
-        {stops:0, id: 'no transfers', label: 'Без пересадок', checked: true },
-        {stops:1, id: '1 transfers', label: '1 пересадка', checked: true },
-        {stops:2, id: '2 transfers', label: '2 пересадки', checked: true },
-        {stops:3, id: '3 transfers', label: '3 пересадки', checked: true },
+        { stops: 0, id: 'no transfers', label: 'Без пересадок', checked: true },
+        { stops: 1, id: '1 transfers', label: '1 пересадка', checked: true },
+        { stops: 2, id: '2 transfers', label: '2 пересадки', checked: true },
+        { stops: 3, id: '3 transfers', label: '3 пересадки', checked: true },
     ],
     tickets: [],
     loading: false,
     error: null,
 };
-
+// eslint-disable-next-line
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SORT':
@@ -22,6 +22,7 @@ const reducer = (state = initialState, action) => {
         case 'FILTER': {
             const newArray = state.filters.map((el) => {
                 if (el.id === action.id) {
+                    // eslint-disable-next-line
                     el.checked = !el.checked;
                     return el;
                 }
@@ -38,6 +39,7 @@ const reducer = (state = initialState, action) => {
         case 'FILTER_ALL': {
             const isFilterAllCheck = !state.filterAll;
             const newArray = state.filters.map((el) => {
+                // eslint-disable-next-line
                 el.checked = isFilterAllCheck;
                 return el;
             });
@@ -50,7 +52,7 @@ const reducer = (state = initialState, action) => {
         case 'FETCH_TICKETS_SUCCESS': {
             return {
                 ...state,
-                tickets:[...state.tickets,...action.tickets],
+                tickets: [...state.tickets, ...action.tickets],
             };
         }
         case 'FETCH_TICKETS_DONE': {
@@ -59,7 +61,7 @@ const reducer = (state = initialState, action) => {
                 loading: false,
             };
         }
-        
+
         case 'FETCH_TICKETS_BEGIN': {
             return {
                 ...state,
